@@ -26,7 +26,7 @@ function App() {
     setPassword(pass)
 
 
-  }, [length, numberAllowed, charAllowed, setPassword])
+  }, [length, numberAllowed, charAllowed])
 
   const copyPasswordToClipboard = useCallback(() => {
     passwordRef.current?.select();
@@ -35,18 +35,21 @@ function App() {
   }, [password])
 
   useEffect(() => {
-    passwordGenerator()
+    const timer = setTimeout(() => {
+      passwordGenerator()
+    }, 0)
+    return () => clearTimeout(timer)
   }, [length, numberAllowed, charAllowed, passwordGenerator])
   return (
     
     <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-800 text-orange-300">
       <div className=' text-3xl  gap-1.5 text-white text-center px-0.5 '>  passwordGenerator</div>
       <div className='flex shadow rounded-lg overflow-hidden mb-4'>
-        <input type="text"  value={password} className="outline-none  rounded-2xl border-1 w-full py-1 px-3"
+        <input type="text"  value={password} className="outline-none  rounded-2xl border w-full py-1 px-3"
             placeholder="Password"
             readOnly
             ref={passwordRef}/>
-            <button onClick={copyPasswordToClipboard} className='  border-1   px-2 rounded-2xl'style={{backgroundColor:"white"}}> copy</button>
+            <button onClick={copyPasswordToClipboard} className='  border   px-2 rounded-2xl'style={{backgroundColor:"white"}}> copy</button>
          </div>
          <div className='justify-center  gap-1 flex flex-wrap'>
           <input type="range" min={8} max={25} value={length } className='cursor-pointer'  onChange={(e) => {setLength(e.target.value)}}/>
